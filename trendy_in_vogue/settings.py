@@ -25,7 +25,12 @@ SECRET_KEY = 'django-insecure-a9dhxw0adwox2i=p%$j55x&jnef5i=a)z(t05023wrr8^hercv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "192.168.0.104",
+    "trendy.alwaysdata.net"
+]
 
 
 # Application definition
@@ -85,13 +90,15 @@ WSGI_APPLICATION = 'trendy_in_vogue.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'trendy_in_vogue_db',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': '127.0.0.1',
+        'NAME': 'trendy_db',
+        'HOST': 'mysql-trendy.alwaysdata.net',
+        'USER': 'trendy',
+        'PASSWORD': 'modcom2026',
         'PORT': '3306',
     }
 }
+
+STATIC_ROOT = BASE_DIR / 'static'
 
 
 # Password validation
