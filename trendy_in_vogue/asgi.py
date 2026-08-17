@@ -11,7 +11,7 @@ import os
 import sys
 from django.core.wsgi import get_wsgi_application
 
-sys.path.append('/home/alchemy/www/Trendy_in_vouge_bcknd/Trendy_in_vouge_bcknd')
+sys.path.append('/home/trendy/www/Trendy_in_vouge_bcknd/Trendy_in_vouge_bcknd')
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Trendy_in_vouge_bcknd.settings')
 from django.core.asgi import get_asgi_application
 
