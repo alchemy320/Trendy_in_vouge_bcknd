@@ -1,13 +1,56 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import ProductViewSet
-from .views import ProductBulkUploadView, CategoryViewSet
+
+from .views import (
+    ProductViewSet,
+    ProductBulkUploadView,
+    CategoryViewSet,
+    ProductReviewListCreateView,
+)
+
+
+# ============================================================
+# API ROUTER
+# ============================================================
 
 router = DefaultRouter()
-router.register(r'products', ProductViewSet)
-router.register(r'catogory', CategoryViewSet)
+
+router.register(
+    r"products",
+    ProductViewSet,
+    basename="product"
+)
+
+router.register(
+    r"categories",
+    CategoryViewSet,
+    basename="category"
+)
+
+
+# ============================================================
+# URL PATTERNS
+# ============================================================
 
 urlpatterns = [
-    path('', include(router.urls)),
-    path('products/bulk/', ProductBulkUploadView.as_view(), name='product-bulk-upload'),
+
+    # Products and Categories
+    path(
+        "",
+        include(router.urls)
+    ),
+
+    # Product Reviews
+    path(
+        "products/<int:product_id>/reviews/",
+        ProductReviewListCreateView.as_view(),
+        name="product-reviews",
+    ),
+
+    # Product Bulk Upload
+    path(
+        "products/bulk/",
+        ProductBulkUploadView.as_view(),
+        name="product-bulk-upload",
+    ),
 ]

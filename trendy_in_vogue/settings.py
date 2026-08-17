@@ -28,8 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    "192.168.0.104",
-    "trendy.alwaysdata.net"
+    "hurry-scouts-kennel.ngrok-free.dev",
 ]
 
 
@@ -45,6 +44,8 @@ INSTALLED_APPS = [
 
      # Third-party Apps
     'rest_framework',
+     'corsheaders',
+     'drf_spectacular',
 
     # My Apps
     'accounts',
@@ -55,6 +56,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -87,19 +89,29 @@ WSGI_APPLICATION = 'trendy_in_vogue.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'trendy_db',
-        'HOST': 'mysql-trendy.alwaysdata.net',
-        'USER': 'trendy',
-        'PASSWORD': 'modcom2026',
-        'PORT': '3306',
-        'OPTIONS': {
-            'sql_mode': 'STRICT_TRANS_TABLES',
-        },
+import os
+
+if os.environ.get('DJANGO_ENV') == 'production':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'trendy_db',
+            'HOST': 'mysql-trendy.alwaysdata.net',
+            'USER': 'trendy',
+            'PASSWORD': 'modcom2026',
+            'PORT': '3306',
+            'OPTIONS': {
+                'sql_mode': 'STRICT_TRANS_TABLES',
+            },
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 STATIC_ROOT = BASE_DIR / 'static'
 
@@ -155,14 +167,27 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+
+    
 }
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=60),
 }
-DARAJA_CONSUMER_KEY = 'SOC2peBjG3L3s7HJVdOAbfFcx5Jx1aL949GzPiKIWDHGhQpb'
-DARAJA_CONSUMER_SECRET = 'eoWb19mAUH8GRWi6XJQ2ZOGZrjgceVANSwJfaGBVFfGqjGoG8ibwXE0fHmobLKeZ'
-DARAJA_SHORT_CODE = ''
-DARAJA_PASSKEY = ''
-DARAJA_CALLBACK_URL = 'https://yourdomain.com/api/payment/callback/'
+MPESA_CONSUMER_KEY = "m6Nhhk4yA4Nx8ztqEkGiIoY5FCYwt7QY2Iwh5YoSWrVmMLlv"
+MPESA_CONSUMER_SECRET = "XeBOqnjmtqt2Iyxmw7zWQZTjeq2fjRQtMfmYjjWwehz8qx3O5pVjGGEy5zU0ZrQN"
+MPESA_BUSINESS_SHORT_CODE = "174379"
+MPESA_PASSKEY = "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
+MPESA_CALLBACK_URL = (
+    "https://hurry-scouts-kennel.ngrok-free.dev/api/payments/mpesa/callback/"
+)
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]
