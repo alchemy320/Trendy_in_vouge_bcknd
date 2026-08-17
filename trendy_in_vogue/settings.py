@@ -96,7 +96,7 @@ if os.environ.get('DJANGO_ENV') == 'production':
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'NAME': 'trendy_db',
-            'HOST': 'mysql-trendy.alwaysdata.net',
+            'HOST': 'trendy.alwaysdata.net',
             'USER': 'trendy',
             'PASSWORD': 'modcom2026',
             'PORT': '3306',
