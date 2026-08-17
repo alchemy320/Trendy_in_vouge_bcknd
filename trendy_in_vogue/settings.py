@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,7 +28,7 @@ SECRET_KEY = 'django-insecure-a9dhxw0adwox2i=p%$j55x&jnef5i=a)z(t05023wrr8^hercv
 DEBUG = True
 
 ALLOWED_HOSTS = [
-   "trendy.alwaysdata.net",
+    "trendy.alwaysdata.net",
     "localhost",
     "127.0.0.1",
     "hurry-scouts-kennel.ngrok-free.dev",
@@ -43,10 +45,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-     # Third-party Apps
+    # Third-party Apps
     'rest_framework',
-     'corsheaders',
-     'drf_spectacular',
+    'corsheaders',
+    'drf_spectacular',
 
     # My Apps
     'accounts',
@@ -57,7 +59,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # Kept safely near the top
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -89,8 +91,6 @@ WSGI_APPLICATION = 'trendy_in_vogue.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-import os
 
 if os.environ.get('DJANGO_ENV') == 'production':
     DATABASES = {
@@ -162,7 +162,6 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "accounts.User"
 
-from datetime import timedelta
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -173,14 +172,13 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
-
-    
 }
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=60),
 }
+
 MPESA_CONSUMER_KEY = "m6Nhhk4yA4Nx8ztqEkGiIoY5FCYwt7QY2Iwh5YoSWrVmMLlv"
 MPESA_CONSUMER_SECRET = "XeBOqnjmtqt2Iyxmw7zWQZTjeq2fjRQtMfmYjjWwehz8qx3O5pVjGGEy5zU0ZrQN"
 MPESA_BUSINESS_SHORT_CODE = "174379"
@@ -189,9 +187,40 @@ MPESA_CALLBACK_URL = (
     "https://hurry-scouts-kennel.ngrok-free.dev/api/payments/mpesa/callback/"
 )
 
+# ==============================================================================
+# 🔐 FIXED CORS & SECURITY SETTINGS
+# ==============================================================================
+
+# Explicitly white-listing origins ensures your JWT authorization headers aren't blocked
 CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
     "http://localhost:5174",
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:5174",
     "https://trend-in-vouge-react.vercel.app",
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
+# Required by Django to process authenticated state-changing requests (POST, PUT, DELETE)
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:5174",
+    "https://trend-in-vouge-react.vercel.app",
+]
+
+# Allows the browser to send cookies and authorization tokens across origins
+CORS_ALLOW_CREDENTIALS = True
+
+# Explicitly accept necessary standard backend headers
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization", # Critical for your SimpleJWT setup
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
