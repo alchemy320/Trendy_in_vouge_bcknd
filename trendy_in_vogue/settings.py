@@ -190,5 +190,8 @@ MPESA_CALLBACK_URL = (
 )
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
+    "http://localhost:5174",
+    "https://trend-in-vouge-react.vercel.app",
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True

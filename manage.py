@@ -4,6 +4,8 @@ import os
 import sys
 
 
+
+
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'trendy_in_vogue.settings')
