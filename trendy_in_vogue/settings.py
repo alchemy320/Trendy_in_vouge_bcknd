@@ -195,32 +195,30 @@ MPESA_CALLBACK_URL = (
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://localhost:5174",
-    "http://127.0.0.1:5173",
-    "http://127.0.0.1:5174",
     "https://trend-in-vouge-react.vercel.app",
 ]
 
 # Required by Django to process authenticated state-changing requests (POST, PUT, DELETE)
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5173",
-    "http://localhost:5174",
-    "http://127.0.0.1:5173",
-    "http://127.0.0.1:5174",
-    "https://trend-in-vouge-react.vercel.app",
-]
+# CSRF_TRUSTED_ORIGINS = [
+#     "http://localhost:5173",
+#     "http://localhost:5174",
+#     "http://127.0.0.1:5173",
+#     "http://127.0.0.1:5174",
+#     "https://trend-in-vouge-react.vercel.app",
+# ]
 
 # Allows the browser to send cookies and authorization tokens across origins
-CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOW_CREDENTIALS = True
 
 # Explicitly accept necessary standard backend headers
-CORS_ALLOW_HEADERS = [
-    "accept",
-    "accept-encoding",
-    "authorization", # Critical for your SimpleJWT setup
-    "content-type",
-    "dnt",
-    "origin",
-    "user-agent",
-    "x-csrftoken",
-    "x-requested-with",
-]
+# CORS_ALLOW_HEADERS = [
+#     "accept",
+#     "accept-encoding",
+#     "authorization", # Critical for your SimpleJWT setup
+#     "content-type",
+#     "dnt",
+#     "origin",
+#     "user-agent",
+#     "x-csrftoken",
+#     "x-requested-with",
+# ]
