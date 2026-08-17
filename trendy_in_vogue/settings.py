@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-a9dhxw0adwox2i=p%$j55x&jnef5i=a)z(t05023wrr8^hercv
 DEBUG = True
 
 ALLOWED_HOSTS = [
+   " trendy.alwaysdata.net",
     "localhost",
     "127.0.0.1",
     "hurry-scouts-kennel.ngrok-free.dev",
